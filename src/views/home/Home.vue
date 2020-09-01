@@ -43,6 +43,7 @@ import BackTop from "components/content/backTop/BackTop";
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
 import { debounce } from "common/utils.js";
+import { itemListenerMixin } from "common/mixin";
 
 export default {
   name: "Home",
@@ -57,6 +58,7 @@ export default {
     Scroll,
     BackTop,
   },
+  mixin: [itemListenerMixin],
   data() {
     return {
       banners: [],
@@ -82,7 +84,7 @@ export default {
     console.log("home destroyed");
   },
   activated() {
-    this.$refs.scroll.scrollTo(0, this.saveY, 0);
+    this.$refs.scroll.scrollTo(0, this.saveY, 100);
     this.$refs.scroll.refresh();
   },
   deactivated() {
@@ -100,7 +102,7 @@ export default {
   mounted() {
     // 3.监听item中图片加载完成
     const refresh = debounce(this.$refs.scroll.refresh, 50);
-    this.$bus.$on("itenImageLoad", () => {
+    this.$bus.$on("itemImageLoad", () => {
       refresh();
     });
   },
